@@ -5,4 +5,5 @@ sys
 logging
 setuptools
 datetime
+matplotlib
 -e .
