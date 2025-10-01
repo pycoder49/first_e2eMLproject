@@ -6,4 +6,5 @@ logging
 setuptools
 datetime
 matplotlib
--e .
+dill
+# -e .
