@@ -1,4 +1,3 @@
-from src.components import data_transformation
 from src.exception import CustomException
 from src.logger import logging
 from src.utils import save_object, evaluate_models
@@ -17,8 +16,6 @@ from sklearn.tree import DecisionTreeRegressor
 from xgboost import XGBRegressor
 
 import os, sys
-import pandas as pd
-import numpy as np
 
 
 @dataclass
