@@ -1,5 +1,6 @@
 from sklearn.metrics import r2_score
 from src.exception import CustomException
+from sklearn.model_selection import GridSearchCV
 import os, sys
 import numpy as np
 import pandas as pd
@@ -17,12 +18,26 @@ def save_object(file_path, obj) -> None:
         raise CustomException(e, sys)
     
 
-def evaluate_models(X_train, y_train, X_test, y_test, models: dict) -> dict:
+def load_object(file_path):
+    try:
+        with open(file_path, "rb") as file:
+            return dill.load(file)
+    except Exception as e:
+        raise CustomException(e, sys)
+    
+
+def evaluate_models(X_train, y_train, X_test, y_test, models, parameters) -> dict:
     try:
         report = {}
 
         for i in range(len(models)):
             model = list(models.values())[i]
+            model_params = parameters[list(models.keys())[i]]
+
+            grid_search = GridSearchCV(model, model_params, cv=5)
+            grid_search.fit(X_train, y_train)
+            
+            model.set_params(**grid_search.best_params_)
             model.fit(X_train, y_train)
 
             y_train_pred = model.predict(X_train)
